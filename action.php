@@ -85,7 +85,7 @@ class action_plugin_hipchat extends DokuWiki_Action_Plugin {
 		if ($minor) $say = $say . ' [minor edit]';
         if ($summary) $say = $say . '<br /><em>' . $summary . '</em>';
 		
-		Hippy::speak($say, array('notify' => $minor));
+		Hippy::speak($say, array('notify' => 0));
     }
 
     /* Make our URLs! */
