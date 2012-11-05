@@ -47,13 +47,7 @@ class action_plugin_hipchat extends DokuWiki_Action_Plugin {
 		$page     = $INFO['namespace'] . $INFO['id'];
 		$summary  = $SUM;
 		$minor    = (boolean) $_REQUEST['minor'];
-		
-        $config = array( 
-                'token'      => $this->getConf('hipchat_token'),
-                'room'       => $this->getConf('hipchat_room'),
-                'from'       => $this->getConf('hipchat_name'));
-		Hippy::config($config);
-		
+
         /* Namespace filter */
         $ns = $this->getConf('hipchat_namespaces');
         if (!empty($ns)) {
@@ -63,6 +57,29 @@ class action_plugin_hipchat extends DokuWiki_Action_Plugin {
                 return;
             }
         }
+
+        $room = $this->getConf('hipchat_room')
+        /* Namespace-Room filter */
+        $nsr = $this->getConf('hipchat_namespace_room');
+        if (!empty($nsr)) {
+            $namespace_room_list = explode(',', $nsr);
+            $namespace_rooms = array();
+            foreach ($namespace_room_list as $namespace_room_rule) {
+                $namespace_room_rule = explode('="', $namespace_room_rule);
+                $namespace_rooms[$namespace_room_rule[0]] = $namespace_room_rule[1];
+            }
+
+            $current_namespace = explode(':', $INFO['namespace']);
+            if (array_key_exists($current_namespace[0], $namespace_rooms)) {
+                $room = $namespace_rooms[$current_namespace[0]];
+            }
+        }
+
+        $config = array(
+                'token'      => $this->getConf('hipchat_token'),
+                'room'       => $room,
+                'from'       => $this->getConf('hipchat_name'));
+        Hippy::config($config);
 
         $say = '<b>' . $fullname . '</b> updated the Wikipage <b><a href="' . $this->urlize() . '">' . $INFO['id'] . '</a></b>';
 		if ($minor) $say = $say . ' [minor edit]';
