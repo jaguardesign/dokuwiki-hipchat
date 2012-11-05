@@ -60,7 +60,7 @@ class action_plugin_hipchat extends DokuWiki_Action_Plugin {
 
         $room = $this->getConf('hipchat_room')
         /* Namespace-Room filter */
-        $nsr = $this->getConf('hipchat_namespace_room');
+        $nsr = $this->getConf('hipchat_namespaceroom');
         if (!empty($nsr)) {
             $namespace_room_list = explode(',', $nsr);
             $namespace_rooms = array();
