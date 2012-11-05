@@ -65,7 +65,7 @@ class action_plugin_hipchat extends DokuWiki_Action_Plugin {
             $namespace_room_list = explode(',', $nsr);
             $namespace_rooms = array();
             foreach ($namespace_room_list as $namespace_room_rule) {
-                $namespace_room_rule = explode('="', $namespace_room_rule);
+                $namespace_room_rule = explode('=', $namespace_room_rule);
                 $namespace_rooms[$namespace_room_rule[0]] = $namespace_room_rule[1];
             }
 
